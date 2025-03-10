@@ -130,7 +130,7 @@ endmodule
 **Purpose:** The control unit decodes the instruction and generates control signals to manage the datapath, specifically the ALU operation and register file write enable.
 
 Code:
-```bash
+```verilog
 module control_unit (
     input [11:0] instruction,  // 12-bit instruction
     output reg alu_op,         // ALU operation (0 = ADD, 1 = SUB)
