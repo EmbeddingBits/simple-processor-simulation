@@ -2,23 +2,23 @@
 
 The provided Verilog code implements a simple 4-bit RISC-V-inspired processor. Here are the key characteristics and components:
 
-    4-bit Data Path: All data (registers, ALU operations, and results) are 4 bits wide, meaning values are limited to the range 0 to 15 (decimal) or 0000 to 1111 (binary). Any arithmetic result outside this range is truncated to 4 bits.
-    Instruction Set: Supports two instructions (ADD and SUB) and a NOP (no operation) for unused or invalid instructions.
-    Instruction Format: Instructions are 12 bits wide, with fields for the opcode, source registers, and destination register.
-    Components:
-        Program Counter (PC): Keeps track of the current instruction address.
-        Instruction Memory: Stores the program instructions.
-        Control Unit: Decodes instructions and generates control signals.
-        Register File: Stores data in four 4-bit registers (r0 to r3).
-        ALU (Arithmetic Logic Unit): Performs arithmetic operations (ADD or SUB).
-        Top-Level Module: Integrates all components into a complete processor.
-        Testbench: Simulates the processor and verifies its operation.
+**4-bit Data Path**: All data (registers, ALU operations, and results) are 4 bits wide, meaning values are limited to the range 0 to 15 (decimal) or 0000 to 1111 (binary). Any arithmetic result outside this range is truncated to 4 bits.
+**Instruction Set**: Supports two instructions (ADD and SUB) and a NOP (no operation) for unused or invalid instructions.
+**Instruction Format**: Instructions are 12 bits wide, with fields for the opcode, source registers, and destination register.
+**Components**:
+**Program Counter (PC)**: Keeps track of the current instruction address.
+**Instruction Memory**: Stores the program instructions.
+**Control Unit**: Decodes instructions and generates control signals.
+**Register File**: Stores data in four 4-bit registers (r0 to r3).
+**ALU (Arithmetic Logic Unit)**: Performs arithmetic operations (ADD or SUB).
+**Top-Level Module**: Integrates all components into a complete processor.
+**Testbench**: Simulates the processor and verifies its operation.
 
 The processor operates in a synchronous, single-cycle fashion, meaning each instruction is fetched, decoded, executed, and its result written back to the register file in one clock cycle.
 Detailed Explanation of Each Module
 
 
-1. Program Counter Module (program_counter)
+**1. Program Counter Module (program_counter)**
 
 Purpose: The program counter (PC) keeps track of the address of the current instruction being executed. It increments by 1 on each clock cycle to fetch the next instruction, unless reset.
 
@@ -39,26 +39,25 @@ module program_counter (
         end
     end
 endmodule
-```verilog
+```
 Explanation:
-
-    Inputs:
-        clk: The clock signal, which triggers the PC to update on its rising edge (posedge clk).
-        reset: An active-high reset signal that sets the PC to 0 when asserted, ensuring the processor starts executing from the first instruction.
-    Output:
-        pc: A 4-bit register (reg [3:0]) that holds the current instruction address. It is declared as reg because it needs to store state and is updated sequentially.
-    Logic:
-        The always @(posedge clk or posedge reset) block is a sequential logic block, meaning it only executes on the rising edge of the clock or reset.
-        If reset is high, pc is set to 4'b0000 (binary 0), resetting the processor to start from instruction address 0.
-        Otherwise, on each rising edge of the clock, pc is incremented by 1 (pc <= pc + 1), moving to the next instruction address.
-    Role in Processor: The PC drives the instruction memory to fetch the instruction at the current address. It is a critical component of the fetch stage in the processor's execution cycle.
+Inputs:
+       clk: The clock signal, which triggers the PC to update on its rising edge (posedge clk).
+       reset: An active-high reset signal that sets the PC to 0 when asserted, ensuring the processor starts executing from the first instruction.
+Output:
+       pc: A 4-bit register (reg [3:0]) that holds the current instruction address. It is declared as reg because it needs to store state and is updated sequentially.
+Logic:
+       The always @(posedge clk or posedge reset) block is a sequential logic block, meaning it only executes on the rising edge of the clock or reset.
+       If reset is high, pc is set to 4'b0000 (binary 0), resetting the processor to start from instruction address 0.
+       Otherwise, on each rising edge of the clock, pc is incremented by 1 (pc <= pc + 1), moving to the next instruction address.
+Role in Processor: The PC drives the instruction memory to fetch the instruction at the current address. It is a critical component of the fetch stage in the processor's execution cycle.
 
 2. Instruction Memory Module (instruction_memory)
 
 Purpose: The instruction memory stores the program instructions that the processor executes. It acts as a read-only memory (ROM) in this design, with preloaded instructions.
 
 Code:
-verilog
+```bash
 module instruction_memory (
     input [3:0] pc,           // Program counter
     output reg [11:0] instr   // Instruction output
@@ -90,23 +89,22 @@ module instruction_memory (
         instr = mem[pc];
     end
 endmodule
-
+```
 Explanation:
-
-    Inputs:
+Inputs:
         pc: A 4-bit input from the program counter, used as the address to fetch the instruction. Since it is 4 bits, it can address up to 16 locations (0 to 15).
-    Output:
+Output:
         instr: A 12-bit output that holds the instruction fetched from memory. It is declared as reg because it is assigned in an always block.
-    Internal Storage:
+        Internal Storage:
         reg [11:0] mem [0:15]: An array of 16 entries, where each entry is a 12-bit instruction. This is the memory that stores the program.
-    Initialization:
+Initialization:
         The initial block preloads the memory with a sample program and ensures all unused locations are set to NOP:
             mem[0] = 12'b000100100000: ADD instruction (opcode = 0) that adds r0 and r2, storing the result in r1.
             mem[1] = 12'b001000010001: SUB instruction (opcode = 1) that subtracts r0 from r1, storing the result in r2.
             mem[2] = 12'b001100100000: ADD instruction that adds r2 and r1, storing the result in r3.
             mem[3] = 12'b000000000000: NOP (no operation), which does nothing (used to end the program).
             mem[4] to mem[15] = 12'b000000000000: All remaining locations are initialized to NOP to prevent undefined behavior (x values) if the PC accesses them.
-    Logic:
+Logic:
         The always @(*) block is combinational logic, meaning it continuously outputs the instruction at the address specified by pc (instr = mem[pc]). This ensures the instruction is available immediately when the PC changes.
     Role in Processor: The instruction memory provides the instruction to be decoded and executed by the processor. It is part of the fetch stage of the execution cycle.
 
@@ -115,7 +113,7 @@ Explanation:
 Purpose: The control unit decodes the instruction and generates control signals to manage the datapath, specifically the ALU operation and register file write enable.
 
 Code:
-verilog
+```bash
 module control_unit (
     input [11:0] instruction,  // 12-bit instruction
     output reg alu_op,         // ALU operation (0 = ADD, 1 = SUB)
@@ -149,10 +147,10 @@ module control_unit (
         endcase
     end
 endmodule
-
+```
 Explanation:
 
-    Inputs:
+Inputs:
         instruction: The 12-bit instruction fetched from memory.
     Outputs:
         alu_op: A 1-bit signal that controls the ALU operation (0 = ADD, 1 = SUB). Declared as reg because it is assigned in an always block.
