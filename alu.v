@@ -6,8 +6,8 @@ module alu (
 );
     always @(*) begin
         case (opcode)
-            1'b0: result = a + b;  // ADD
-            1'b1: result = a - b;  // SUB
+            1'b0: result = a + b;  // ADD, truncated to 4 bits
+            1'b1: result = a - b;  // SUB, truncated to 4 bits
             default: result = 4'b0;
         endcase
     end

@@ -1,0 +1,187 @@
+$date
+	Mon Mar 10 14:34:04 2025
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module riscv_4bit_processor_tb $end
+$var wire 4 ! result [3:0] $end
+$var reg 1 " clk $end
+$var reg 1 # reset $end
+$scope module dut $end
+$var wire 1 " clk $end
+$var wire 1 # reset $end
+$var wire 4 $ result [3:0] $end
+$var wire 4 % rs2_data [3:0] $end
+$var wire 2 & rs2_addr [1:0] $end
+$var wire 4 ' rs1_data [3:0] $end
+$var wire 2 ( rs1_addr [1:0] $end
+$var wire 1 ) reg_we $end
+$var wire 2 * rd_addr [1:0] $end
+$var wire 4 + pc [3:0] $end
+$var wire 12 , instruction [11:0] $end
+$var wire 4 - alu_result [3:0] $end
+$var wire 1 . alu_op $end
+$scope module alu_inst $end
+$var wire 1 . opcode $end
+$var wire 4 / b [3:0] $end
+$var wire 4 0 a [3:0] $end
+$var reg 4 1 result [3:0] $end
+$upscope $end
+$scope module cu $end
+$var wire 1 2 opcode $end
+$var wire 12 3 instruction [11:0] $end
+$var reg 1 . alu_op $end
+$var reg 1 ) reg_we $end
+$upscope $end
+$scope module imem $end
+$var wire 4 4 pc [3:0] $end
+$var reg 12 5 instr [11:0] $end
+$upscope $end
+$scope module pc_inst $end
+$var wire 1 " clk $end
+$var wire 1 # reset $end
+$var reg 4 6 pc [3:0] $end
+$upscope $end
+$scope module regfile $end
+$var wire 1 " clk $end
+$var wire 2 7 rd_addr [1:0] $end
+$var wire 4 8 rd_data [3:0] $end
+$var wire 1 # reset $end
+$var wire 2 9 rs1_addr [1:0] $end
+$var wire 4 : rs1_data [3:0] $end
+$var wire 2 ; rs2_addr [1:0] $end
+$var wire 4 < rs2_data [3:0] $end
+$var wire 1 ) we $end
+$upscope $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+b11 <
+b10 ;
+b10 :
+b0 9
+b101 8
+b0 7
+b0 6
+b100100000 5
+b0 4
+b100100000 3
+02
+b101 1
+b10 0
+b11 /
+0.
+b101 -
+b100100000 ,
+b0 +
+b0 *
+1)
+b0 (
+b10 '
+b10 &
+b11 %
+b101 $
+1#
+0"
+b101 !
+$end
+#5
+1"
+#10
+0"
+0#
+#15
+1.
+1)
+12
+b0 %
+b0 /
+b0 <
+b1 &
+b1 ;
+b1000010001 ,
+b1000010001 3
+b1000010001 5
+b101 !
+b101 $
+b101 -
+b101 1
+b101 8
+b1 +
+b1 4
+b1 6
+b101 '
+b101 0
+b101 :
+1"
+#20
+0"
+#25
+1)
+0.
+b1000 !
+b1000 $
+b1000 -
+b1000 1
+b1000 8
+02
+b11 %
+b11 /
+b11 <
+b10 &
+b10 ;
+b1100100000 ,
+b1100100000 3
+b1100100000 5
+b10 +
+b10 4
+b10 6
+1"
+#30
+0"
+#35
+b1000 %
+b1000 /
+b1000 <
+b0 &
+b0 ;
+b0 ,
+b0 3
+b0 5
+b0 !
+b0 $
+b0 -
+b0 1
+b0 8
+b11 +
+b11 4
+b11 6
+b1000 '
+b1000 0
+b1000 :
+1"
+#40
+0"
+#45
+b0 '
+b0 0
+b0 :
+b0 %
+b0 /
+b0 <
+b100 +
+b100 4
+b100 6
+1"
+#50
+0"
+#51

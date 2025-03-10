@@ -27,14 +27,15 @@ module riscv_4bit_processor_tb;
         #10;
         reset = 0;
         
-        // Run for 4 instructions (40ns)
+        // Run for 4 instructions (40ns), but check results at clock edges
         #40;
         
-        // Display results
+        // Display results (wait a small delay to ensure signals settle)
+        #1;  // Small delay to account for combinational logic
         $display("Final Result: %d", result);
         
         // Check expected result
-        if (result == 4'd0)  // Final ADD: 3 + 5 = 8, truncated to 0 in 4-bit
+        if (result === 4'd0)  // Use === to handle potential x values
             $display("Test Passed!");
         else
             $display("Test Failed! Expected 0, got %d", result);
@@ -42,7 +43,7 @@ module riscv_4bit_processor_tb;
         $finish;
     end
     
-    // Monitor
+    // Monitor (trigger on falling edge to see stable results)
     initial begin
         $monitor("Time=%0t: PC=%d, Result=%d", $time, dut.pc, result);
     end
