@@ -17,12 +17,12 @@ module riscv_4bit_processor (
     assign rd_addr = instruction[7:6];    // Bits 7:6
     
     // Instantiate modules
-    instruction_mem imem (
+    instruction_memory imem (
         .pc(pc),
         .instr(instruction)
     );
     
-    register regfile (
+    register_file regfile (
         .clk(clk),
         .reset(reset),
         .we(1'b1),          // Always write for simplicity
