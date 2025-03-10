@@ -45,6 +45,6 @@ module riscv_4bit_processor_tb;
     
     // Monitor (trigger on falling edge to see stable results)
     initial begin
-        $monitor("Time=%0t: PC=%d, Result=%d", $time, dut.pc, result);
+        $monitor("Time = %0t: PC = %d, Result = %d", $time, dut.pc, result);
     end
 endmodule
